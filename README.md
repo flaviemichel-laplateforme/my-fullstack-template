@@ -19,27 +19,54 @@ Un template fullstack moderne combinant un backend Node.js avec un frontend Reac
 
 ```
 my-fullstack-template/
-├── backend/                 # Application serveur
-│   ├── config/             # Configuration (base de données, etc.)
-│   ├── controllers/        # Logique métier
-│   ├── middlewares/        # Middlewares (auth, validation, etc.)
-│   ├── models/             # Modèles de données
-│   ├── routes/             # Définition des routes API
-│   ├── server.js           # Point d'entrée du serveur
-│   ├── shema.sql           # Schéma de la base de données
+├── backend/                     # Application serveur
+│   ├── config/                 # Configuration (base de données, etc.)
+│   │   └── db.js
+│   ├── controllers/            # Logique métier
+│   │   ├── auth.controller.js
+│   │   └── reservation.controller.js
+│   ├── middlewares/            # Middlewares (auth, validation, etc.)
+│   │   └── auth.middleware.js
+│   ├── models/                 # Modèles de données
+│   │   └── user.model.js
+│   ├── routes/                 # Définition des routes API
+│   │   └── auth.routes.js
+│   ├── server.js               # Point d'entrée du serveur
+│   ├── shema.sql               # Schéma de la base de données
 │   └── package.json
 │
-├── frontend/               # Application cliente
-│   ├── public/            # Fichiers statiques
+├── frontend/                    # Application cliente
+│   ├── public/                 # Fichiers statiques
 │   ├── src/
-│   │   ├── assets/        # Images, fonts, etc.
-│   │   ├── components/    # Composants réutilisables
-│   │   ├── contexts/      # Contextes React
-│   │   ├── hooks/         # Hooks personnalisés
-│   │   ├── pages/         # Pages de l'application
-│   │   ├── services/      # Services API
-│   │   ├── App.jsx        # Composant principal
-│   │   └── main.jsx       # Point d'entrée React
+│   │   ├── assets/             # Images, fonts, etc.
+│   │   ├── components/         # Composants réutilisables
+│   │   │   ├── Header/
+│   │   │   │   └── Header.jsx
+│   │   │   ├── Footer/
+│   │   │   │   └── Footer.jsx
+│   │   │   ├── PrivateRoute/
+│   │   │   │   └── PrivateRoute.jsx
+│   │   │   └── MonComposant.jsx
+│   │   ├── contexts/           # Contextes React (AuthContext)
+│   │   │   └── AuthContext.jsx
+│   │   ├── hooks/              # Hooks personnalisés
+│   │   │   └── useAuth.js
+│   │   ├── layouts/            # Layouts de mise en page
+│   │   │   ├── MainLayout.jsx  # Layout avec Header + Footer
+│   │   │   └── AuthLayout.jsx  # Layout plein écran (login/register)
+│   │   ├── pages/              # Pages de l'application
+│   │   │   ├── Home/
+│   │   │   │   └── Home.jsx
+│   │   │   ├── Login/
+│   │   │   │   └── Login.jsx
+│   │   │   ├── Register/
+│   │   │   │   └── Register.jsx
+│   │   │   └── Dashboard/
+│   │   │       └── Dashboard.jsx
+│   │   ├── services/           # Services API
+│   │   │   └── api.js
+│   │   ├── App.jsx             # Composant principal (routes)
+│   │   └── main.jsx            # Point d'entrée React
 │   ├── index.html
 │   ├── vite.config.js
 │   └── package.json
@@ -109,16 +136,32 @@ VITE_API_URL=http://localhost:5000
 
 ## 🚀 Démarrage
 
-### Démarrer le Backend
+### Tout installer d'un coup (depuis la racine)
+
+```bash
+npm run install-all
+```
+
+### Lancer le Backend et le Frontend en même temps (depuis la racine)
+
+```bash
+npm run dev
+```
+
+> Utilise **concurrently** pour démarrer le backend et le frontend simultanément.
+> - Backend sur `http://localhost:5000`
+> - Frontend sur `http://localhost:5173`
+
+### Démarrer séparément
+
+#### Backend
 
 ```bash
 cd backend
 npm start
 ```
 
-Le serveur démarre sur `http://localhost:5000`
-
-### Démarrer le Frontend
+#### Frontend
 
 Dans un nouveau terminal :
 
@@ -127,9 +170,12 @@ cd frontend
 npm run dev
 ```
 
-L'application React démarre sur `http://localhost:5173`
-
 ## 📝 Scripts Disponibles
+
+### Racine (package.json principal)
+
+- `npm run install-all` - Installe les dépendances backend et frontend
+- `npm run dev` - Lance le backend et le frontend en parallèle (concurrently)
 
 ### Backend
 
